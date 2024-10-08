@@ -40,47 +40,37 @@ var minQual int = 0
 // functions
 
 func BaselineUpdateItem(item *Item) {
-
-	// Detect and cast type of item
-	// note - Sulphuras don't do anything, so these may be removed later
-	// if item.Name == "Sulfuras, Hand of Ragnaros" {
-	if strings.Contains(item.Name, "Sulfuras") {
-		// implement logic (based on the item's cast type)
-		SulfurasItem := Sulfuras{Item: *item}
-		SulfurasItem.updateItem()
-	} else {
-		if item.Name != "Aged Brie" && item.Name != "Backstage passes to a TAFKAL80ETC concert" {
-			item.incrementItemQuality()
-		} else {
-			if item.Quality < maxQual {
-				item.Quality += 1
-				if item.Name == "Backstage passes to a TAFKAL80ETC concert" {
-					if item.SellIn < 11 {
-						if item.Quality < maxQual {
-							item.Quality += 1
-						}
+	if item.Name == "Aged Brie" || item.Name == "Backstage passes to a TAFKAL80ETC concert" {
+		if item.Quality < maxQual {
+			item.Quality += 1
+			if item.Name == "Backstage passes to a TAFKAL80ETC concert" {
+				if item.SellIn < 11 {
+					if item.Quality < maxQual {
+						item.Quality += 1
 					}
-					if item.SellIn < 6 {
-						if item.Quality < maxQual {
-							item.Quality += 1
-						}
+				}
+				if item.SellIn < 6 {
+					if item.Quality < maxQual {
+						item.Quality += 1
 					}
 				}
 			}
 		}
-		item.incrementItemSellIn()
+	} else {
+		item.incrementItemQuality()
+	}
+	item.incrementItemSellIn()
 
-		if item.SellIn < minQual {
-			if item.Name != "Aged Brie" {
-				if item.Name != "Backstage passes to a TAFKAL80ETC concert" {
-					item.incrementItemQuality()
-				} else {
-					item.Quality = item.Quality - item.Quality
-				}
+	if item.SellIn < minQual {
+		if item.Name != "Aged Brie" {
+			if item.Name == "Backstage passes to a TAFKAL80ETC concert" {
+				item.Quality = item.Quality - item.Quality
 			} else {
-				if item.Quality < maxQual {
-					item.Quality += 1
-				}
+				item.incrementItemQuality()
+			}
+		} else {
+			if item.Quality < maxQual {
+				item.Quality += 1
 			}
 		}
 	}
@@ -88,6 +78,11 @@ func BaselineUpdateItem(item *Item) {
 
 func UpdateQuality(items []*Item) {
 	for _, item := range items {
-		BaselineUpdateItem(item)
+		if strings.Contains(item.Name, "Sulfuras") {
+			SulfurasItem := Sulfuras{Item: *item}
+			SulfurasItem.updateItem()
+		} else {
+			BaselineUpdateItem(item)
+		}
 	}
 }
