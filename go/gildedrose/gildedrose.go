@@ -22,6 +22,13 @@ func (item *Item) incrementItemSellIn() {
 	item.SellIn -= 1
 }
 
+func (item *Item) updateItem() {
+	item.SellIn -= 1
+	if item.Quality > minQual {
+		item.Quality -= 1
+	}
+}
+
 // func (s *Item) hello() {
 // 	fmt.Printf("hello %s, I am Item \n", s.Name)
 // }
@@ -32,8 +39,7 @@ func (item *Item) incrementItemSellIn() {
 // }
 
 // note - These do nothing, may be removed later
-func (SulfurasItemitem *Sulfuras) incrementItemQuality() {}
-func (SulfurasItemitem *Sulfuras) incrementItemSellIn()  {}
+func (SulfurasItemitem *Sulfuras) updateItem() {}
 
 // magic numbers
 var maxQual int = 50
@@ -41,15 +47,14 @@ var minQual int = 0
 
 // functions
 
-func UpdateItem(item *Item) {
+func BaselineUpdateItem(item *Item) {
 
 	// Detect and cast type of item
 	// note - Sulphuras don't do anything, so these may be removed later
 	if item.Name == "Sulfuras, Hand of Ragnaros" {
 		// implement logic (based on the item's cast type)
 		SulfurasItem := Sulfuras{Item: *item}
-		SulfurasItem.incrementItemQuality()
-		SulfurasItem.incrementItemSellIn()
+		SulfurasItem.updateItem()
 	} else {
 		// item.hello()
 
@@ -92,6 +97,6 @@ func UpdateItem(item *Item) {
 
 func UpdateQuality(items []*Item) {
 	for _, item := range items {
-		UpdateItem(item)
+		BaselineUpdateItem(item)
 	}
 }
