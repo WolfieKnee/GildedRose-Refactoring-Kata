@@ -1,7 +1,6 @@
 package gildedrose
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -12,11 +11,11 @@ type Item struct {
 }
 
 type Sulfuras struct {
-	Item
+	*Item
 }
 
 type Passes struct {
-	Item
+	*Item
 }
 
 // Methods for Item
@@ -48,10 +47,6 @@ func (item *Item) updateItem() {
 func (SulfurasItem *Sulfuras) updateItem() {}
 
 // Methods for Passes
-func (PassesItem *Passes) updateItem() {
-	fmt.Print("hello from passes \n")
-}
-
 func (PassesItem *Passes) updateQuality() {
 	PassesItem.incrementItemQuality()
 	if PassesItem.SellIn <= 10 {
@@ -91,25 +86,27 @@ func BaselineUpdateItem(item *Item) {
 				item.decrementItemQuality()
 			}
 		} else {
-			if item.Quality < maxQual {
-				item.Quality += 1
-			}
+			// if item.Quality < maxQual {
+			// 	item.Quality += 1
+			// }
+			item.incrementItemQuality()
 		}
 	}
 }
 
 func UpdateQuality(items []*Item) {
 	for _, item := range items {
+
 		if strings.Contains(item.Name, "Sulfuras") {
-			SulfurasItem := Sulfuras{Item: *item}
+			SulfurasItem := Sulfuras{item}
 			SulfurasItem.updateItem()
 		} else if strings.Contains(item.Name, "Backstage passes") {
-			PassesItem := Passes{*item}
+			PassesItem := Passes{item}
 			PassesItem.updateQuality()
-			item.Quality = PassesItem.Quality
 			BaselineUpdateItem(item)
 		} else {
 			BaselineUpdateItem(item)
 		}
+
 	}
 }
