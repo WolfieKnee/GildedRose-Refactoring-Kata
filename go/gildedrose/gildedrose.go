@@ -52,13 +52,11 @@ func BaselineUpdateItem(item *Item) {
 			if item.Name == "Backstage passes to a TAFKAL80ETC concert" {
 				if item.SellIn < 11 {
 					if item.Quality < maxQual {
-						// item.Quality += 1
 						item.incrementItemQuality()
 					}
 				}
 				if item.SellIn < 6 {
 					if item.Quality < maxQual {
-						// item.Quality += 1
 						item.incrementItemQuality()
 					}
 				}
