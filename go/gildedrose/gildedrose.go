@@ -40,7 +40,7 @@ func (item *Item) decrementItemSellIn() {
 }
 
 func (item *Item) updateItem() {
-	// item.SellIn -= 1
+	item.decrementItemSellIn()
 	item.decrementItemQuality()
 }
 
@@ -58,34 +58,26 @@ func (PassesItem *Passes) updateItem() {
 		PassesItem.incrementItemQuality()
 		// PassesItem.incrementItemQuality()
 	}
+	PassesItem.decrementItemSellIn()
+	if PassesItem.SellIn < 0 {
+		PassesItem.Quality = PassesItem.Quality - PassesItem.Quality
+	}
+
 }
 
 // Method for brie
 func (PassesItem *Brie) updateItem() {
 	PassesItem.incrementItemQuality()
+	PassesItem.decrementItemSellIn()
+	if PassesItem.SellIn < 0 {
+		PassesItem.incrementItemQuality()
+	}
+
 }
 
 // magic numbers
 var maxQual int = 50
 var minQual int = 0
-
-// functions
-
-func BaselineUpdateItem(item *Item) {
-	// behaviours for SellIn < 0
-	if item.SellIn < 0 {
-		if item.Name != "Aged Brie" {
-			// set Q for expired tickets to zero
-			if item.Name == "Backstage passes to a TAFKAL80ETC concert" {
-				item.Quality = item.Quality - item.Quality
-			} else {
-				item.decrementItemQuality()
-			}
-		} else {
-			item.incrementItemQuality()
-		}
-	}
-}
 
 func UpdateQuality(items []*Item) {
 	for _, item := range items {
@@ -96,17 +88,11 @@ func UpdateQuality(items []*Item) {
 		} else if strings.Contains(item.Name, "Backstage passes") {
 			PassesItem := Passes{item}
 			PassesItem.updateItem()
-			item.decrementItemSellIn()
-			BaselineUpdateItem(item)
 		} else if strings.Contains(item.Name, "Brie") {
 			BrieItem := Brie{item}
 			BrieItem.updateItem()
-			item.decrementItemSellIn()
-			BaselineUpdateItem(item)
 		} else {
 			item.updateItem()
-			item.decrementItemSellIn()
-			BaselineUpdateItem(item)
 		}
 
 	}
