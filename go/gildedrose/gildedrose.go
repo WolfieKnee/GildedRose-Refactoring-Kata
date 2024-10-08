@@ -53,15 +53,13 @@ func (PassesItem *Passes) updateItem() {
 }
 
 func (PassesItem *Passes) UpdatePassQuality() {
-	if PassesItem.SellIn < 11 {
-		if PassesItem.Quality < maxQual {
-			PassesItem.incrementItemQuality()
-		}
+	PassesItem.incrementItemQuality()
+	if PassesItem.SellIn <= 10 {
+		PassesItem.incrementItemQuality()
 	}
-	if PassesItem.SellIn < 6 {
-		if PassesItem.Quality < maxQual {
-			PassesItem.incrementItemQuality()
-		}
+	if PassesItem.SellIn <= 5 {
+		PassesItem.incrementItemQuality()
+		// PassesItem.incrementItemQuality()
 	}
 }
 
@@ -79,22 +77,9 @@ func BaselineUpdateItem(item *Item) {
 			item.Quality += 1
 		}
 	} else if item.Name == "Backstage passes to a TAFKAL80ETC concert" {
-		if item.Quality < maxQual {
-			item.Quality += 1
-			if item.Name == "Backstage passes to a TAFKAL80ETC concert" {
-
-				if item.SellIn < 11 {
-					if item.Quality < maxQual {
-						item.incrementItemQuality()
-					}
-				}
-				if item.SellIn < 6 {
-					if item.Quality < maxQual {
-						item.incrementItemQuality()
-					}
-				}
-			}
-		}
+		PassesItem := Passes{*item}
+		PassesItem.UpdatePassQuality()
+		item.Quality = PassesItem.Quality
 
 	} else {
 		item.decrementItemQuality()
@@ -126,8 +111,8 @@ func UpdateQuality(items []*Item) {
 			SulfurasItem := Sulfuras{Item: *item}
 			SulfurasItem.updateItem()
 		} else if strings.Contains(item.Name, "Backstage passes") {
-			PassesItem := Passes{Item: *item}
-			PassesItem.updateItem()
+			// PassesItem := Passes{Item: *item}
+			// PassesItem.updateItem()
 			BaselineUpdateItem(item)
 		} else {
 			BaselineUpdateItem(item)
