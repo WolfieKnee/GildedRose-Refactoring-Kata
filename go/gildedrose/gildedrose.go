@@ -1,5 +1,7 @@
 package gildedrose
 
+import "strings"
+
 //  Type definitions
 type Item struct {
 	Name            string
@@ -11,7 +13,6 @@ type Sulfuras struct {
 }
 
 // Methods for Item
-
 func (item *Item) incrementItemQuality() {
 	if item.Quality > minQual {
 		item.Quality -= 1
@@ -29,15 +30,6 @@ func (item *Item) updateItem() {
 	}
 }
 
-// func (s *Item) hello() {
-// 	fmt.Printf("hello %s, I am Item \n", s.Name)
-// }
-
-// Methods for Sulphus
-// func (s *Sulfuras) hello() {
-// 	fmt.Printf("hello %s, I am Sulfurus \n", s.Name)
-// }
-
 // note - These do nothing, may be removed later
 func (SulfurasItemitem *Sulfuras) updateItem() {}
 
@@ -51,13 +43,12 @@ func BaselineUpdateItem(item *Item) {
 
 	// Detect and cast type of item
 	// note - Sulphuras don't do anything, so these may be removed later
-	if item.Name == "Sulfuras, Hand of Ragnaros" {
+	// if item.Name == "Sulfuras, Hand of Ragnaros" {
+	if strings.Contains(item.Name, "Sulfuras") {
 		// implement logic (based on the item's cast type)
 		SulfurasItem := Sulfuras{Item: *item}
 		SulfurasItem.updateItem()
 	} else {
-		// item.hello()
-
 		if item.Name != "Aged Brie" && item.Name != "Backstage passes to a TAFKAL80ETC concert" {
 			item.incrementItemQuality()
 		} else {
