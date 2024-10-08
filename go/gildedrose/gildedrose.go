@@ -67,7 +67,7 @@ func BaselineUpdateItem(item *Item) {
 	}
 	item.decrementItemSellIn()
 
-	if item.SellIn < minQual {
+	if item.SellIn < 0 {
 		if item.Name != "Aged Brie" {
 			if item.Name == "Backstage passes to a TAFKAL80ETC concert" {
 				item.Quality = item.Quality - item.Quality
