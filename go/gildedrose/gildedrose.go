@@ -18,6 +18,10 @@ type Passes struct {
 	*Item
 }
 
+type Brie struct {
+	*Item
+}
+
 // Methods for Item
 func (item *Item) decrementItemQuality() {
 	if item.Quality > minQual {
@@ -58,6 +62,11 @@ func (PassesItem *Passes) updateQuality() {
 	}
 }
 
+// Method for brie
+func (PassesItem *Brie) updateQuality() {
+	PassesItem.incrementItemQuality()
+}
+
 // magic numbers
 var maxQual int = 50
 var minQual int = 0
@@ -67,9 +76,7 @@ var minQual int = 0
 func BaselineUpdateItem(item *Item) {
 
 	// update the quality
-	if item.Name == "Aged Brie" {
-		item.incrementItemQuality()
-	} else if item.Name != "Backstage passes to a TAFKAL80ETC concert" {
+	if item.Name != "Backstage passes to a TAFKAL80ETC concert" && item.Name != "Aged Brie" {
 		item.decrementItemQuality()
 	}
 
@@ -86,9 +93,6 @@ func BaselineUpdateItem(item *Item) {
 				item.decrementItemQuality()
 			}
 		} else {
-			// if item.Quality < maxQual {
-			// 	item.Quality += 1
-			// }
 			item.incrementItemQuality()
 		}
 	}
@@ -103,6 +107,10 @@ func UpdateQuality(items []*Item) {
 		} else if strings.Contains(item.Name, "Backstage passes") {
 			PassesItem := Passes{item}
 			PassesItem.updateQuality()
+			BaselineUpdateItem(item)
+		} else if strings.Contains(item.Name, "Brie") {
+			BrieItem := Brie{item}
+			BrieItem.updateQuality()
 			BaselineUpdateItem(item)
 		} else {
 			BaselineUpdateItem(item)
