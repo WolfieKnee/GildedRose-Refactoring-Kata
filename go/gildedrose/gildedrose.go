@@ -40,10 +40,8 @@ func (item *Item) decrementItemSellIn() {
 }
 
 func (item *Item) updateItem() {
-	item.SellIn -= 1
-	if item.Quality > minQual {
-		item.Quality -= 1
-	}
+	// item.SellIn -= 1
+	item.decrementItemQuality()
 }
 
 // Methods for Sulfuras
@@ -51,7 +49,7 @@ func (item *Item) updateItem() {
 func (SulfurasItem *Sulfuras) updateItem() {}
 
 // Methods for Passes
-func (PassesItem *Passes) updateQuality() {
+func (PassesItem *Passes) updateItem() {
 	PassesItem.incrementItemQuality()
 	if PassesItem.SellIn <= 10 {
 		PassesItem.incrementItemQuality()
@@ -63,7 +61,7 @@ func (PassesItem *Passes) updateQuality() {
 }
 
 // Method for brie
-func (PassesItem *Brie) updateQuality() {
+func (PassesItem *Brie) updateItem() {
 	PassesItem.incrementItemQuality()
 }
 
@@ -74,15 +72,6 @@ var minQual int = 0
 // functions
 
 func BaselineUpdateItem(item *Item) {
-
-	// update the quality
-	if item.Name != "Backstage passes to a TAFKAL80ETC concert" && item.Name != "Aged Brie" {
-		item.decrementItemQuality()
-	}
-
-	// decrement the sell in
-	item.decrementItemSellIn()
-
 	// behaviours for SellIn < 0
 	if item.SellIn < 0 {
 		if item.Name != "Aged Brie" {
@@ -106,13 +95,17 @@ func UpdateQuality(items []*Item) {
 			SulfurasItem.updateItem()
 		} else if strings.Contains(item.Name, "Backstage passes") {
 			PassesItem := Passes{item}
-			PassesItem.updateQuality()
+			PassesItem.updateItem()
+			item.decrementItemSellIn()
 			BaselineUpdateItem(item)
 		} else if strings.Contains(item.Name, "Brie") {
 			BrieItem := Brie{item}
-			BrieItem.updateQuality()
+			BrieItem.updateItem()
+			item.decrementItemSellIn()
 			BaselineUpdateItem(item)
 		} else {
+			item.updateItem()
+			item.decrementItemSellIn()
 			BaselineUpdateItem(item)
 		}
 
