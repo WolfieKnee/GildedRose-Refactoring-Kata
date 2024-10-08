@@ -21,7 +21,6 @@ func (item *Item) incrementItemSellIn() {
 }
 
 func UpdateItem(item *Item) {
-	item.incrementItemSellIn()
 
 	if item.Name != "Aged Brie" && item.Name != "Backstage passes to a TAFKAL80ETC concert" {
 		item.incrementItemQuality()
@@ -42,6 +41,7 @@ func UpdateItem(item *Item) {
 			}
 		}
 	}
+	item.incrementItemSellIn()
 
 	if item.SellIn < 0 {
 		if item.Name != "Aged Brie" {
