@@ -13,13 +13,13 @@ type Sulfuras struct {
 }
 
 // Methods for Item
-func (item *Item) incrementItemQuality() {
+func (item *Item) decrementItemQuality() {
 	if item.Quality > minQual {
 		item.Quality -= 1
 	}
 }
 
-func (item *Item) incrementItemSellIn() {
+func (item *Item) decrementItemSellIn() {
 	item.SellIn -= 1
 }
 
@@ -57,16 +57,16 @@ func BaselineUpdateItem(item *Item) {
 			}
 		}
 	} else {
-		item.incrementItemQuality()
+		item.decrementItemQuality()
 	}
-	item.incrementItemSellIn()
+	item.decrementItemSellIn()
 
 	if item.SellIn < minQual {
 		if item.Name != "Aged Brie" {
 			if item.Name == "Backstage passes to a TAFKAL80ETC concert" {
 				item.Quality = item.Quality - item.Quality
 			} else {
-				item.incrementItemQuality()
+				item.decrementItemQuality()
 			}
 		} else {
 			if item.Quality < maxQual {
