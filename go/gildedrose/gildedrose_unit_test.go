@@ -59,3 +59,28 @@ func Test_Sulfuras_tenDay(t *testing.T) {
 		}
 	}
 }
+
+func Test_Item_oneDay(t *testing.T) {
+	items := []*gildedrose.Item{
+		{"+5 Dexterity Vest", 10, 20},
+		{"Elixir of the Mongoose", 5, 7},
+	}
+
+	expected := []*gildedrose.Item{
+		{"+5 Dexterity Vest", 9, 19},
+		{"Elixir of the Mongoose", 4, 6},
+	}
+
+	// Act
+	gildedrose.UpdateQuality(items)
+
+	// Assert
+	for i, item := range expected {
+		if items[i].SellIn != item.SellIn {
+			t.Errorf("%s - SellIn: Expected %d but got %d ", item.Name, item.SellIn, items[i].SellIn)
+		}
+		if items[i].Quality != item.Quality {
+			t.Errorf("%s - Quality: Expected %d but got %d ", item.Name, item.Quality, items[i].Quality)
+		}
+	}
+}
