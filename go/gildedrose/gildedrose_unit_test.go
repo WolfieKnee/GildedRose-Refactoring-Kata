@@ -202,3 +202,51 @@ func Test_Tickets_Q_zero(t *testing.T) {
 		}
 	}
 }
+
+func Test_Brie_oneDay(t *testing.T) {
+	items := []*gildedrose.Item{
+		{"Aged Brie", 2, 0},
+	}
+
+	expected := []*gildedrose.Item{
+		{"Aged Brie", 1, 1},
+	}
+
+	// Act
+	gildedrose.UpdateQuality(items)
+
+	// Assert
+	for i, item := range expected {
+		if items[i].SellIn != item.SellIn {
+			t.Errorf("%s - SellIn: Expected %d but got %d ", item.Name, item.SellIn, items[i].SellIn)
+		}
+		if items[i].Quality != item.Quality {
+			t.Errorf("%s - Quality: Expected %d but got %d ", item.Name, item.Quality, items[i].Quality)
+		}
+	}
+}
+
+func Test_Brie_tenDay(t *testing.T) {
+	items := []*gildedrose.Item{
+		{"Aged Brie", 2, 0},
+	}
+
+	expected := []*gildedrose.Item{
+		{"Aged Brie", -8, 18},
+	}
+
+	// Act
+	for day := 1; day <= 10; day++ {
+		gildedrose.UpdateQuality(items)
+	}
+
+	// Assert
+	for i, item := range expected {
+		if items[i].SellIn != item.SellIn {
+			t.Errorf("%s - SellIn: Expected %d but got %d ", item.Name, item.SellIn, items[i].SellIn)
+		}
+		if items[i].Quality != item.Quality {
+			t.Errorf("%s - Quality: Expected %d but got %d ", item.Name, item.Quality, items[i].Quality)
+		}
+	}
+}
