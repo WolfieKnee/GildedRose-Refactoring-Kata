@@ -117,7 +117,7 @@ func Test_twoDays(t *testing.T) {
 		}
 	}
 }
-func Test_fiveDays(t *testing.T) {
+func Test_tenDays(t *testing.T) {
 	// Arrange
 	var items = []*gildedrose.Item{
 		{"+5 Dexterity Vest", 10, 20},
