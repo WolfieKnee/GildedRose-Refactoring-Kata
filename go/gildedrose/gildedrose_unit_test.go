@@ -110,3 +110,95 @@ func Test_Sulfuras_tenDay(t *testing.T) {
 		}
 	}
 }
+
+func Test_Tickets_Q_increases_by_one(t *testing.T) {
+	items := []*gildedrose.Item{
+		{"Backstage passes to a TAFKAL80ETC concert", 15, 20},
+	}
+
+	expected := []*gildedrose.Item{
+		{"Backstage passes to a TAFKAL80ETC concert", 14, 21},
+	}
+
+	// Act
+	gildedrose.UpdateQuality(items)
+
+	// Assert
+	for i, item := range expected {
+		if items[i].SellIn != item.SellIn {
+			t.Errorf("%s - SellIn: Expected %d but got %d ", item.Name, item.SellIn, items[i].SellIn)
+		}
+		if items[i].Quality != item.Quality {
+			t.Errorf("%s - Quality: Expected %d but got %d ", item.Name, item.Quality, items[i].Quality)
+		}
+	}
+}
+
+func Test_Tickets_Q_increases_by_two(t *testing.T) {
+	items := []*gildedrose.Item{
+		{"Backstage passes to a TAFKAL80ETC concert", 10, 20},
+	}
+
+	expected := []*gildedrose.Item{
+		{"Backstage passes to a TAFKAL80ETC concert", 9, 22},
+	}
+
+	// Act
+	gildedrose.UpdateQuality(items)
+
+	// Assert
+	for i, item := range expected {
+		if items[i].SellIn != item.SellIn {
+			t.Errorf("%s - SellIn: Expected %d but got %d ", item.Name, item.SellIn, items[i].SellIn)
+		}
+		if items[i].Quality != item.Quality {
+			t.Errorf("%s - Quality: Expected %d but got %d ", item.Name, item.Quality, items[i].Quality)
+		}
+	}
+}
+
+func Test_Tickets_Q_increases_by_3(t *testing.T) {
+	items := []*gildedrose.Item{
+		{"Backstage passes to a TAFKAL80ETC concert", 5, 20},
+	}
+
+	expected := []*gildedrose.Item{
+		{"Backstage passes to a TAFKAL80ETC concert", 4, 23},
+	}
+
+	// Act
+	gildedrose.UpdateQuality(items)
+
+	// Assert
+	for i, item := range expected {
+		if items[i].SellIn != item.SellIn {
+			t.Errorf("%s - SellIn: Expected %d but got %d ", item.Name, item.SellIn, items[i].SellIn)
+		}
+		if items[i].Quality != item.Quality {
+			t.Errorf("%s - Quality: Expected %d but got %d ", item.Name, item.Quality, items[i].Quality)
+		}
+	}
+}
+
+func Test_Tickets_Q_zero(t *testing.T) {
+	items := []*gildedrose.Item{
+		{"Backstage passes to a TAFKAL80ETC concert", 0, 20},
+	}
+
+	expected := []*gildedrose.Item{
+		{"Backstage passes to a TAFKAL80ETC concert", -1, 0},
+	}
+
+	// Act
+	gildedrose.UpdateQuality(items)
+
+	// Assert
+	for i, item := range expected {
+		if items[i].SellIn != item.SellIn {
+			t.Errorf("%s - SellIn: Expected %d but got %d ", item.Name, item.SellIn, items[i].SellIn)
+		}
+		if items[i].Quality != item.Quality {
+			t.Errorf("%s - Quality: Expected %d but got %d ", item.Name, item.Quality, items[i].Quality)
+		}
+	}
+}
