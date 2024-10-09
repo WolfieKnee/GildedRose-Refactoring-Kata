@@ -250,3 +250,29 @@ func Test_Brie_tenDay(t *testing.T) {
 		}
 	}
 }
+
+func Test_Conjured(t *testing.T) {
+	// Arrange
+	var items = []*gildedrose.Item{
+
+		{"Conjured Mana Cake", 3, 6},
+	}
+
+	var expected = []*gildedrose.Item{
+		{"Conjured Mana Cake", 2, 4},
+	}
+	// Act
+	gildedrose.UpdateQuality(items)
+	// Assert
+	for i, item := range expected {
+		if items[i].Name != item.Name {
+			t.Errorf("Name: Expected %s but got %s ", item.Name, items[i].Name)
+		}
+		if items[i].SellIn != item.SellIn {
+			t.Errorf("%s - SellIn: Expected %d but got %d ", item.Name, item.SellIn, items[i].SellIn)
+		}
+		if items[i].Quality != item.Quality {
+			t.Errorf("%s - Quality: Expected %d but got %d ", item.Name, item.Quality, items[i].Quality)
+		}
+	}
+}
