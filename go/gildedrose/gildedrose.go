@@ -50,13 +50,17 @@ func (item *Item) incrementQuality(value ...int) {
 	}
 }
 
-func (item *Item) decrementItemSellIn() {
-	item.SellIn -= 1
+func (item *Item) decrementSellIn(value ...int) {
+	decrement := 1
+	if len(value) > 0 {
+		decrement = value[0]
+	}
+	item.SellIn -= decrement
 }
 
 // Item updaters
 func (item *Item) updateItem() {
-	item.decrementItemSellIn()
+	item.decrementSellIn()
 	item.decrementQuality()
 }
 
@@ -65,7 +69,7 @@ func (SulfurasItem *Sulfuras) updateItem() {}
 
 func (PassesItem *Brie) updateItem() {
 	PassesItem.incrementQuality()
-	PassesItem.decrementItemSellIn()
+	PassesItem.decrementSellIn()
 	if PassesItem.SellIn < 0 {
 		PassesItem.incrementQuality()
 	}
@@ -80,7 +84,7 @@ func (PassesItem *Passes) updateItem() {
 		PassesItem.incrementQuality()
 		// PassesItem.incrementItemQuality()
 	}
-	PassesItem.decrementItemSellIn()
+	PassesItem.decrementSellIn()
 	if PassesItem.SellIn < 0 {
 		PassesItem.Quality = PassesItem.Quality - PassesItem.Quality
 	}
