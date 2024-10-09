@@ -30,9 +30,13 @@ type ItemWrapper interface {
 }
 
 // Utility Methods
-func (item *Item) decrementItemQuality() {
+func (item *Item) decrementItemQuality(value ...int) {
+	decrement := 1
+	if len(value) > 0 {
+		decrement = value[0]
+	}
 	if item.Quality > MINQUAL {
-		item.Quality -= 1
+		item.Quality -= decrement
 	}
 }
 
