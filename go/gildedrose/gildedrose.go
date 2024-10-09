@@ -87,7 +87,7 @@ func (PassesItem *Passes) updateItem() {
 	}
 	PassesItem.decrementSellIn()
 	if PassesItem.SellIn < 0 {
-		PassesItem.Quality = PassesItem.Quality - PassesItem.Quality
+		PassesItem.Quality = 0
 	}
 
 }
