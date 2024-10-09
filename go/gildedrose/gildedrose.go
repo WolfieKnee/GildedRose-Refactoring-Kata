@@ -30,49 +30,62 @@ type ItemWrapper interface {
 }
 
 // Utility Methods
-func (item *Item) decrementItemQuality() {
+func (item *Item) decrementQuality(value ...int) {
+	decrement := 1
+	if len(value) > 0 {
+		decrement = value[0]
+	}
 	if item.Quality > MINQUAL {
-		item.Quality -= 1
+		item.Quality -= decrement
 	}
 }
 
-func (item *Item) incrementItemQuality() {
+func (item *Item) incrementQuality(value ...int) {
+	increment := 1
+	if len(value) > 0 {
+		increment = value[0]
+	}
 	if item.Quality < MAXQUAL {
-		item.Quality += 1
+		item.Quality += increment
 	}
 }
 
-func (item *Item) decrementItemSellIn() {
-	item.SellIn -= 1
+func (item *Item) decrementSellIn(value ...int) {
+	decrement := 1
+	if len(value) > 0 {
+		decrement = value[0]
+	}
+	item.SellIn -= decrement
 }
 
 // Item updaters
 func (item *Item) updateItem() {
-	item.decrementItemSellIn()
-	item.decrementItemQuality()
+	item.decrementSellIn()
+	item.decrementQuality()
 }
 
 // note - These do nothing, may be removed later
 func (SulfurasItem *Sulfuras) updateItem() {}
 
 func (PassesItem *Brie) updateItem() {
-	PassesItem.incrementItemQuality()
-	PassesItem.decrementItemSellIn()
+	PassesItem.decrementSellIn()
 	if PassesItem.SellIn < 0 {
-		PassesItem.incrementItemQuality()
+		PassesItem.incrementQuality(2)
+	} else {
+		PassesItem.incrementQuality()
 	}
 }
 
 func (PassesItem *Passes) updateItem() {
-	PassesItem.incrementItemQuality()
+	PassesItem.incrementQuality()
 	if PassesItem.SellIn <= 10 {
-		PassesItem.incrementItemQuality()
+		PassesItem.incrementQuality()
 	}
 	if PassesItem.SellIn <= 5 {
-		PassesItem.incrementItemQuality()
+		PassesItem.incrementQuality()
 		// PassesItem.incrementItemQuality()
 	}
-	PassesItem.decrementItemSellIn()
+	PassesItem.decrementSellIn()
 	if PassesItem.SellIn < 0 {
 		PassesItem.Quality = PassesItem.Quality - PassesItem.Quality
 	}
