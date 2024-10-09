@@ -68,7 +68,6 @@ func (item *Item) updateItem() {
 func (SulfurasItem *Sulfuras) updateItem() {}
 
 func (PassesItem *Brie) updateItem() {
-
 	PassesItem.decrementSellIn()
 	if PassesItem.SellIn < 0 {
 		PassesItem.incrementQuality(2)
