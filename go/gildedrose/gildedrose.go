@@ -77,13 +77,22 @@ func (PassesItem *Brie) updateItem() {
 }
 
 func (PassesItem *Passes) updateItem() {
-	PassesItem.incrementQuality()
-	if PassesItem.SellIn <= 10 {
+	switch {
+	case PassesItem.SellIn <= 5:
+		PassesItem.incrementQuality(3)
+	case PassesItem.SellIn <= 10:
+		PassesItem.incrementQuality(2)
+	default:
 		PassesItem.incrementQuality()
 	}
-	if PassesItem.SellIn <= 5 {
-		PassesItem.incrementQuality()
-	}
+
+	// PassesItem.incrementQuality()
+	// if PassesItem.SellIn <= 10 {
+	// 	PassesItem.incrementQuality()
+	// }
+	// if PassesItem.SellIn <= 5 {
+	// 	PassesItem.incrementQuality()
+	// }
 
 	PassesItem.decrementSellIn()
 	if PassesItem.SellIn < 0 {
