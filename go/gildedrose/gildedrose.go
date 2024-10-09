@@ -26,7 +26,7 @@ type Brie struct {
 }
 
 type ItemWrapper interface {
-	updateItem(item *Item)
+	updateItem()
 }
 
 // Utility Methods
@@ -61,7 +61,6 @@ func (PassesItem *Brie) updateItem() {
 	if PassesItem.SellIn < 0 {
 		PassesItem.incrementItemQuality()
 	}
-
 }
 
 func (PassesItem *Passes) updateItem() {
@@ -85,19 +84,30 @@ func UpdateQuality(items []*Item) {
 		var wrappedItem ItemWrapper
 		switch {
 		case strings.Contains(item.Name, "Sulfuras"):
-			wrappedItem = Sulfuras{item}
+			wrappedItem = &Sulfuras{item}
+			wrappedItem.updateItem()
+
 			// SulfurasItem := Sulfuras{item}
 			// SulfurasItem.updateItem()
 		case strings.Contains(item.Name, "Backstage passes"):
-			PassesItem := Passes{item}
-			PassesItem.updateItem()
+
+			wrappedItem := &Passes{item}
+			wrappedItem.updateItem()
+
+			// PassesItem := Passes{item}
+			// PassesItem.updateItem()
 		case strings.Contains(item.Name, "Brie"):
-			BrieItem := Brie{item}
-			BrieItem.updateItem()
+			wrappedItem := &Brie{item}
+			wrappedItem.updateItem()
+			// BrieItem := Brie{item}
+			// BrieItem.updateItem()
 		default:
-			item.updateItem()
+			wrappedItem := item
+			wrappedItem.updateItem()
+
+			// item.updateItem()
 		}
-		wrappedItem.updateItem()
+		// wrappedItem.updateItem()
 
 	}
 }
