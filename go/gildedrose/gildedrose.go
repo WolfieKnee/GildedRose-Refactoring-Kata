@@ -24,13 +24,13 @@ type Brie struct {
 
 // Methods for Item
 func (item *Item) decrementItemQuality() {
-	if item.Quality > minQual {
+	if item.Quality > MINQUAL {
 		item.Quality -= 1
 	}
 }
 
 func (item *Item) incrementItemQuality() {
-	if item.Quality < maxQual {
+	if item.Quality < MAXQUAL {
 		item.Quality += 1
 	}
 }
@@ -76,8 +76,8 @@ func (PassesItem *Brie) updateItem() {
 }
 
 // magic numbers
-var maxQual int = 50
-var minQual int = 0
+var MAXQUAL int = 50
+var MINQUAL int = 0
 
 func UpdateQuality(items []*Item) {
 	for _, item := range items {
