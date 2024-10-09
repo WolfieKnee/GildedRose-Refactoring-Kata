@@ -53,7 +53,7 @@ func Test_oneDay(t *testing.T) {
 		{"Backstage passes to a TAFKAL80ETC concert", 14, 21},
 		{"Backstage passes to a TAFKAL80ETC concert", 9, 50},
 		{"Backstage passes to a TAFKAL80ETC concert", 4, 50},
-		{"Conjured Mana Cake", 2, 5}, // <-- :O
+		{"Conjured Mana Cake", 2, 4}, // <-- :O
 	}
 
 	// Act
@@ -97,7 +97,7 @@ func Test_twoDays(t *testing.T) {
 		{"Backstage passes to a TAFKAL80ETC concert", 13, 22},
 		{"Backstage passes to a TAFKAL80ETC concert", 8, 50},
 		{"Backstage passes to a TAFKAL80ETC concert", 3, 50},
-		{"Conjured Mana Cake", 1, 4}, // <-- :O
+		{"Conjured Mana Cake", 1, 2}, // <-- :O
 	}
 
 	// Act
