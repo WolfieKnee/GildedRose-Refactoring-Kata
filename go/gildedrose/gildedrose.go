@@ -85,29 +85,13 @@ func UpdateQuality(items []*Item) {
 		switch {
 		case strings.Contains(item.Name, "Sulfuras"):
 			wrappedItem = &Sulfuras{item}
-			wrappedItem.updateItem()
-
-			// SulfurasItem := Sulfuras{item}
-			// SulfurasItem.updateItem()
 		case strings.Contains(item.Name, "Backstage passes"):
-
-			wrappedItem := &Passes{item}
-			wrappedItem.updateItem()
-
-			// PassesItem := Passes{item}
-			// PassesItem.updateItem()
+			wrappedItem = &Passes{item}
 		case strings.Contains(item.Name, "Brie"):
-			wrappedItem := &Brie{item}
-			wrappedItem.updateItem()
-			// BrieItem := Brie{item}
-			// BrieItem.updateItem()
+			wrappedItem = &Brie{item}
 		default:
-			wrappedItem := item
-			wrappedItem.updateItem()
-
-			// item.updateItem()
+			wrappedItem = item
 		}
-		// wrappedItem.updateItem()
-
+		wrappedItem.updateItem()
 	}
 }
