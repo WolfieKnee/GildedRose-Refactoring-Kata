@@ -25,6 +25,10 @@ type Brie struct {
 	*Item
 }
 
+type Conjured struct {
+	*Item
+}
+
 type ItemWrapper interface {
 	updateItem()
 }
@@ -68,7 +72,7 @@ func (item *Item) updateItem() {
 	item.decrementQuality()
 }
 
-// note - These do nothing, may be removed later
+// note - does nothing but maintained for consistency
 func (SulfurasItem *Sulfuras) updateItem() {}
 
 func (PassesItem *Brie) updateItem() {
@@ -78,6 +82,11 @@ func (PassesItem *Brie) updateItem() {
 	} else {
 		PassesItem.incrementQuality()
 	}
+}
+
+func (item *Conjured) updateItem() {
+	item.decrementSellIn()
+	item.decrementQuality(2)
 }
 
 func (PassesItem *Passes) updateItem() {
@@ -104,6 +113,8 @@ func UpdateQuality(items []*Item) {
 			wrappedItem = &Passes{item}
 		case strings.Contains(item.Name, "Brie"):
 			wrappedItem = &Brie{item}
+		case strings.Contains(item.Name, "Conjured"):
+			wrappedItem = &Conjured{item}
 		default:
 			wrappedItem = item
 		}
