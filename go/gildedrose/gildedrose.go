@@ -82,16 +82,17 @@ var minQual int = 0
 func UpdateQuality(items []*Item) {
 	for _, item := range items {
 
-		if strings.Contains(item.Name, "Sulfuras") {
+		switch {
+		case strings.Contains(item.Name, "Sulfuras"):
 			SulfurasItem := Sulfuras{item}
 			SulfurasItem.updateItem()
-		} else if strings.Contains(item.Name, "Backstage passes") {
+		case strings.Contains(item.Name, "Backstage passes"):
 			PassesItem := Passes{item}
 			PassesItem.updateItem()
-		} else if strings.Contains(item.Name, "Brie") {
+		case strings.Contains(item.Name, "Brie"):
 			BrieItem := Brie{item}
 			BrieItem.updateItem()
-		} else {
+		default:
 			item.updateItem()
 		}
 
