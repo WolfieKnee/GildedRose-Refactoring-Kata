@@ -83,8 +83,8 @@ func (PassesItem *Passes) updateItem() {
 	}
 	if PassesItem.SellIn <= 5 {
 		PassesItem.incrementQuality()
-		// PassesItem.incrementItemQuality()
 	}
+
 	PassesItem.decrementSellIn()
 	if PassesItem.SellIn < 0 {
 		PassesItem.Quality = 0
