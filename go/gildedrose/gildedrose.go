@@ -35,8 +35,10 @@ func (item *Item) decrementQuality(value ...int) {
 	if len(value) > 0 {
 		decrement = value[0]
 	}
-	if item.Quality > MINQUAL {
-		item.Quality -= decrement
+	item.Quality -= decrement
+
+	if item.Quality < MINQUAL {
+		item.Quality = MINQUAL
 	}
 }
 
@@ -45,8 +47,10 @@ func (item *Item) incrementQuality(value ...int) {
 	if len(value) > 0 {
 		increment = value[0]
 	}
-	if item.Quality < MAXQUAL {
-		item.Quality += increment
+	item.Quality += increment
+
+	if item.Quality > MAXQUAL {
+		item.Quality = MAXQUAL
 	}
 }
 
@@ -78,6 +82,8 @@ func (PassesItem *Brie) updateItem() {
 
 func (PassesItem *Passes) updateItem() {
 	switch {
+	case PassesItem.SellIn <= 0:
+		PassesItem.Quality = 0
 	case PassesItem.SellIn <= 5:
 		PassesItem.incrementQuality(3)
 	case PassesItem.SellIn <= 10:
@@ -85,20 +91,7 @@ func (PassesItem *Passes) updateItem() {
 	default:
 		PassesItem.incrementQuality()
 	}
-
-	// PassesItem.incrementQuality()
-	// if PassesItem.SellIn <= 10 {
-	// 	PassesItem.incrementQuality()
-	// }
-	// if PassesItem.SellIn <= 5 {
-	// 	PassesItem.incrementQuality()
-	// }
-
 	PassesItem.decrementSellIn()
-	if PassesItem.SellIn < 0 {
-		PassesItem.Quality = 0
-	}
-
 }
 
 func UpdateQuality(items []*Item) {
